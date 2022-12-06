@@ -202,3 +202,8 @@ table3 <- cox2.display(cox.pro)
 | sex          | 0.97 (0.85,1.1)  | 0.61          | 0.95 (0.84,1.08) | 0.446        |
 
 Cox model on time (‘time’) to event (‘status’)
+
+
+### Q.3 샤이니 웹 앱 만든 후 ShinyApps.io 배포하기
+
+https://lkw159159.shinyapps.io/finalterm/
