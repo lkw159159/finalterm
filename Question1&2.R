@@ -1,0 +1,39 @@
+#Load the library & data
+library(tableone);library(data.table);library(magrittr);library(survival);library(jstable)
+
+url <- "https://raw.githubusercontent.com/jinseob2kim/lecture-snuhlab/master/data/example_g1e.csv"
+dt <- fread(url, header=T)
+
+head(dt)
+
+
+#Q.1 Table 만들기
+data = dt[,c('HGHT',"WGHT", 'BMI', 'HDL', 'LDL', 'Q_SMK_YN', 'Q_HBV_AG','EXMD_BZ_YYYY')]
+data$Q_SMK_YN = as.factor(data$Q_SMK_YN)
+data$Q_HBV_AG = as.factor(data$Q_HBV_AG)
+
+CreateTableOne(vars = colnames(data)[-8], strata= 'EXMD_BZ_YYYY', data=data)
+
+
+#Q.2 선형회귀, 로지스틱, 콕스생존분석 table 만들기
+##Q.2-1
+head(colon)
+
+lin.reg = glm(time ~ rx + age + sex, data=colon)
+table1 = glmshow.display(lin.reg)
+knitr::kable(table1$table, caption = table1$first.line)
+
+##Q.2-2
+head(colon)
+
+log.reg = glm(status ~ rx +age + sex, data=colon, family = binomial)
+table2 = glmshow.display(log.reg)
+knitr::kable(table2$table, caption = table2$first.line)
+
+##Q.2-3
+head(colon)
+
+cox.pro = coxph(Surv(time, status) ~ rx + age + sex, data = colon, model = T)
+table3 <- cox2.display(cox.pro)
+knitr::kable(table3$table, caption = table3$caption)
+
